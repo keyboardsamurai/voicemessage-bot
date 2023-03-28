@@ -3,6 +3,8 @@ package com.keyboardsamurais.apps.util;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import com.keyboardsamurais.apps.exceptions.SubtitleDownloadFailedException;
 import org.junit.jupiter.api.Assertions;
@@ -20,16 +22,22 @@ class YoutubeSubtitleDownloaderIT {
     void setUp() {
         this.youtubeSub = new YoutubeSubtitleDownloader();
     }
+
     @Test
     void testDownloadYTFail() {
+        final CompletableFuture<String> future = youtubeSub.downloadSubtitlesSrt("yskgRZwzysc");
         Assertions.assertThrows(SubtitleDownloadFailedException.class, () -> {
-            youtubeSub.downloadSubtitlesSrt("yskgRZwzysc");
+            try {
+                future.get();
+            } catch (Exception e) {
+                throw e.getCause();
+            }
         });
     }
 
     @Test
-    void testDownloadYTSuccess() throws IOException {
-        String result = youtubeSub.downloadSubtitlesSrt("Mqg3aTGNxZ0");
+    void testDownloadYTSuccess() throws IOException, ExecutionException, InterruptedException {
+        String result = youtubeSub.downloadSubtitlesSrt("Mqg3aTGNxZ0").get();
         assertTrue(result.contains("00:00:00,000 --> 00:00:03"));
     }
 
@@ -51,6 +59,7 @@ class YoutubeSubtitleDownloaderIT {
         final String expected = "als Ernährungsberater werde ich natürlich oft von ganz vielen unterschiedlichen Menschen gefragt was man denn so alles essen soll ob einfach aus Neugier oder echten Interesse oder";
         assertEquals(expected, convertedResult);
     }
+
     @Test
     void testConvertSrtToTxt2() throws Exception {
         File inputSrt = new File(YoutubeSubtitleDownloaderIT.class.getClassLoader().getResource("test2.srt").toURI());
@@ -65,7 +74,7 @@ class YoutubeSubtitleDownloaderIT {
 
     @Test
     void testConvertDownloadedSrtToTxt() throws Exception {
-        String result = youtubeSub.downloadSubtitlesSrt("Mqg3aTGNxZ0");
+        String result = youtubeSub.downloadSubtitlesSrt("Mqg3aTGNxZ0").get();
         final StringWriter outputTxt = new StringWriter();
         youtubeSub.convertSrtToTxt(new StringReader(result), outputTxt);
         final String convertedResult = outputTxt.toString();

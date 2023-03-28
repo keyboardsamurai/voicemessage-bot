@@ -8,4 +8,8 @@ public class MessageProcessingException extends RuntimeException {
     public MessageProcessingException(final String msg) {
         super(msg);
     }
+
+    public MessageProcessingException(final Throwable tex) {
+        super(tex);
+    }
 }
