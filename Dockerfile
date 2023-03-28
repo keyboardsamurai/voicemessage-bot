@@ -1,6 +1,6 @@
 FROM alpine:3.17
 
-RUN apk add openjdk17-jre-headless
+RUN apk add openjdk17-jre-headless ffmpeg yt-dlp
 
 # Set the working directory in the container
 WORKDIR /app
@@ -14,8 +14,8 @@ ENV CHAT_ID=MyTelegramChatId
 ENV TELEGRAM_BOT_NAME=MyTelegramBotName
 ENV TELEGRAM_BOT_TOKEN=MyTelegramBotToken
 ENV OPENAPI_TOKEN=MyOpenApiToken
-ENV FFMPEG_PATH=/usr/local/bin/ffmpeg
-ENV YTDLP_PATH=/usr/local/bin/yt-dlp
+ENV FFMPEG_PATH=/usr/bin/ffmpeg
+ENV YTDLP_PATH=/usr/bin/yt-dlp
 
 # Run the app
 CMD ["java", "-jar", "app.jar"]
