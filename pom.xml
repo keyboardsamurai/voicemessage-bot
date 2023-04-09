@@ -49,24 +49,16 @@
             <artifactId>wisp</artifactId>
             <version>2.3.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
             <version>6.5.0</version>
         </dependency>
-
         <dependency>
             <groupId>io.github.microutils</groupId>
             <artifactId>kotlin-logging-jvm</artifactId>
             <version>3.0.5</version>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>io.github.cdimascio</groupId>-->
-<!--            <artifactId>dotenv-java</artifactId>-->
-<!--            <version>2.3.2</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>io.github.cdimascio</groupId>
             <artifactId>dotenv-kotlin</artifactId>
@@ -87,7 +79,6 @@
             <artifactId>slf4j-api</artifactId>
             <version>2.0.6</version>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -132,15 +123,12 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-coroutines-test</artifactId>
             <version>${kotlinx-coroutines-core.version}</version>
             <scope>test</scope>
         </dependency>
-
-
     </dependencies>
 
 

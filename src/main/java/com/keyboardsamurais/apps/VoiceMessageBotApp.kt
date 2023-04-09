@@ -18,7 +18,7 @@ object VoiceMessageBotApp {
             val telegramBotsApi = TelegramBotsApi(DefaultBotSession::class.java)
             val options = DefaultBotOptions()
             val botToken = EnvUtils.getEnv("TELEGRAM_BOT_TOKEN")
-            val updatePostedHandler = VoiceMessageBot(options, botToken);
+            val updatePostedHandler = VoiceMessageBot(options, botToken)
             telegramBotsApi.registerBot(updatePostedHandler)
         } catch (e: TelegramApiException) {
             throw RuntimeException(e)
