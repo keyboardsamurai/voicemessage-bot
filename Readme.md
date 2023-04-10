@@ -1,6 +1,6 @@
 # VoiceMessage Telegram Bot
 
-VoiceMessageBotApp is a Java application that utilizes the OpenAI and Telegram API to interact with users through a Telegram Bot. 
+VoiceMessageBotApp is a Kotlin application that utilizes the OpenAI and Telegram API to interact with users through a Telegram Bot. 
 The primary functionality of the bot includes transcribing voice messages, audio files, and YouTube videos into text. 
 Users can also request a summarized version of the transcribed text.                                                                                      
 
@@ -10,12 +10,12 @@ Users can also request a summarized version of the transcribed text.
 - Transcribe audio from YouTube video URLs sent to the bot using existing subtitles or by downloading the video and converting it to audio
 - Summarize the transcribed text upon user request
 * Can be run locally, or as a Docker container
-* Uses [Dotenv](https://github.com/cdimascio/dotenv-java) to load environment variables from a `.env` file, so it can 
+* Uses [Dotenv](https://github.com/cdimascio/dotenv-kotlin) to load environment variables from a `.env` file, so it can 
 be run locally without having to set environment variables
 
 ## Prerequisites
 
-- Java 17 or higher
+- JDK 17 or higher
 - Maven
 - FFmpeg
 - yt-dlp
