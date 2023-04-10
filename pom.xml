@@ -14,6 +14,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.version>1.8.20</kotlin.version>
         <kotlinx-coroutines-core.version>1.7.0-Beta</kotlinx-coroutines-core.version>
+        <jackson.version>2.14.2</jackson.version>
+        <retrofit.version>2.9.0</retrofit.version>
+        <logback.version>1.4.6</logback.version>
     </properties>
 
     <dependencies>
@@ -26,12 +29,12 @@
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit</artifactId>
-            <version>2.9.0</version>
+            <version>${retrofit.version}</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>converter-jackson</artifactId>
-            <version>2.9.0</version>
+            <version>${retrofit.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.fasterxml.jackson.core</groupId>
@@ -42,7 +45,17 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.14.2</version>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-kotlin</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.coreoz</groupId>
@@ -67,12 +80,12 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.4.6</version>
+            <version>${logback.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.4.6</version>
+            <version>${logback.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -101,11 +114,6 @@
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
             <version>3.14.9</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.14.2</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

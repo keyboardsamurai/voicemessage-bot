@@ -24,6 +24,7 @@ import java.util.concurrent.CompletionException
 import java.util.concurrent.atomic.AtomicReference
 import java.util.regex.Pattern
 import kotlin.coroutines.CoroutineContext
+import kotlin.math.min
 
 
 private val log = KotlinLogging.logger {}
@@ -100,7 +101,7 @@ class VoiceMessageBot(options: DefaultBotOptions, botToken: String) : TelegramLo
             sendTextMessage(update.message.chatId.toString(), errorMessage, true)
             throw CompletionException(ex)
         } else {
-            sendTextMessage(update.message.chatId.toString(), onSuccessPayload, true)
+            sendTextMessage(update.message.chatId.toString(), onSuccessPayload!!, true)
         }
     }
 
@@ -110,7 +111,7 @@ class VoiceMessageBot(options: DefaultBotOptions, botToken: String) : TelegramLo
             val fileId = if (update.message.hasVoice()) update.message.voice.fileId else update.message.audio.fileId
             val file = downloadTelegramAudio(fileId)
             voiceFile.set(file)
-            runBlocking {
+            launch {
                 val text = openAIClient.whisperTranscribeAudio(file)
                 sendTextMessage(update.message.chatId.toString(), text, true)
             }
@@ -133,23 +134,27 @@ class VoiceMessageBot(options: DefaultBotOptions, botToken: String) : TelegramLo
         }
     }
 
-    private fun sendTextMessage(chatId: String, text: String?, replyMarkup: Boolean) {
+    private fun sendTextMessage(chatId: String, text: String, replyMarkup: Boolean) {
         // if text length is more than 4096 characters, then split it into multiple messages
-        if (text!!.length > 4096) {
-            val parts = text.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            var sb = StringBuilder()
-            for (part in parts) {
-                if (sb.length + part.length > 4096) {
-                    sendTextMessageInternal(chatId, sb.toString(), replyMarkup)
-                    sb = StringBuilder()
+        val maxLength = 4096
+        var start = 0
+        while (start < text.length) {
+            var end = start + maxLength
+            if (end < text.length) {
+                while (end > start && !text[end].isWhitespace()) {
+                    end--
                 }
-                sb.append(part).append(" ")
+                if (end == start) {
+                    end = min(start + maxLength, text.length)
+                }
+            } else {
+                end = text.length
             }
-            sendTextMessageInternal(chatId, sb.toString(), replyMarkup)
-        } else {
-            sendTextMessageInternal(chatId, text, replyMarkup)
+            sendTextMessageInternal(chatId, text.substring(start, end).trim(), replyMarkup)
+            start = end
         }
     }
+
 
     private fun downloadTelegramAudio(fileId: String): File {
         var outputFile: File? = null
@@ -230,6 +235,6 @@ class VoiceMessageBot(options: DefaultBotOptions, botToken: String) : TelegramLo
     companion object {
         private val YOUTUBE_DOMAIN_PATTERN = Pattern.compile("^(www\\.)?youtu(\\.be|be\\.com)$")
         private val YOUTUBE_VIDEO_ID_PATTERN =
-            Pattern.compile("(?<=v=|v\\/|vi=|vi\\/|youtu\\.be\\/|yt\\.be\\/)[a-zA-Z0-9_-]{11}")
+            Pattern.compile("(?<=v=|v/|vi=|vi/|youtu\\.be/|yt\\.be/)[a-zA-Z0-9_-]{11}")
     }
 }

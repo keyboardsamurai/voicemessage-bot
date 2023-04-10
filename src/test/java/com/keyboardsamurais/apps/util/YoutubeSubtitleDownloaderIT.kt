@@ -97,35 +97,35 @@ internal class YoutubeSubtitleDownloaderIT {
     @Test
     fun testOnlyAlphanumeric() {
         val text = "HelloWorld123"
-        val result = youtubeSub.calculateAlphanumericRatio(text)
+        val result = youtubeSub.alphaToPunctuationRatio(text)
         assertEquals(Float.POSITIVE_INFINITY, result)
     }
 
     @Test
     fun testOnlyPunctuation() {
         val text = ".,!?"
-        val result = youtubeSub.calculateAlphanumericRatio(text)
+        val result = youtubeSub.alphaToPunctuationRatio(text)
         assertEquals(0f, result)
     }
 
     @Test
     fun testMixedContent() {
         val text = "Hello, World! How are you?"
-        val result = youtubeSub.calculateAlphanumericRatio(text)
+        val result = youtubeSub.alphaToPunctuationRatio(text)
         assertEquals(4f, result)
     }
 
     @Test
     fun testEmptyString() {
         val text = ""
-        val result = youtubeSub.calculateAlphanumericRatio(text)
+        val result = youtubeSub.alphaToPunctuationRatio(text)
         assertEquals(Float.NaN, result)
     }
 
     @Test
     fun testNoAlphanumericNoPunctuation() {
         val text = " \n\t"
-        val result = youtubeSub.calculateAlphanumericRatio(text)
+        val result = youtubeSub.alphaToPunctuationRatio(text)
         assertEquals(Float.NaN, result)
     }
 }
